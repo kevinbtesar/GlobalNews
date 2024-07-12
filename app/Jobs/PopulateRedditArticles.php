@@ -47,42 +47,42 @@ class PopulateRedditArticles implements ShouldQueue
         $returnArray = $this->RedditService->getArticles($this->subReddit) ?? [];
         // echo 'returnObj: ' . print_r($returnObj,true);  
 
-        for ($i = 0; $i < count($returnArray); $i++) {
-            $item = $returnArray[$i] ?? null;
+        if (is_array($returnArray) && is_countable($returnArray) && count($returnArray) > 0) {
+            for ($i = 0; $i < count($returnArray); $i++) {
+                $item = $returnArray[$i] ?? null;
 
-            if ($item) {
-                try {
-                    $entry = Article::create([
-                        'title' => substr($item['title'], 0, 255),
-                        'image_url' => $item['image_url'],
-                        'source' => $item['source'],
-                        'app_category' => $this->appCategory,
-                        'subreddit' => $this->subReddit,
-                        'created_utc' => $item['created_utc'],
-                        'author' => $item['author'] ?? null,
-                        'url' => $item['url'],
-                        'reddit_article_id' => $item['reddit_article_id'],
-                        'app_id_fk' => 1,
-                    ]);
+                if ($item) {
+                    try {
+                        $entry = Article::create([
+                            'title' => substr($item['title'], 0, 255),
+                            'image_url' => $item['image_url'],
+                            'source' => $item['source'],
+                            'app_category' => $this->appCategory,
+                            'subreddit' => $this->subReddit,
+                            'created_utc' => $item['created_utc'],
+                            'author' => $item['author'] ?? null,
+                            'url' => $item['url'],
+                            'reddit_article_id' => $item['reddit_article_id'],
+                            'app_id_fk' => 1,
+                        ]);
 
-                    if ($entry->id) {
-                        echo 'item: ' . print_r($item, true);
-                    }
-                    // echo 'id: ' . $entry->id;
-                    // return $entry->id;
+                        if ($entry->id) {
+                            echo 'item: ' . print_r($item, true);
+                        }
+                        // echo 'id: ' . $entry->id;
+                        // return $entry->id;
 
-                } catch (\Illuminate\Database\QueryException $exception) {
+                    } catch (\Illuminate\Database\QueryException $exception) {
 
-                    // 23000 = SQLSTATE[23000]: Integrity constraint violation
-                    // Not interested in logging Integrity constraint violations
-                    if ($exception->getCode() != 23000) {
-                        // Log::error("insertCommunityEntry Error Message: " . $exception->getCode());
-                        Log::error("PopulateRedditArticles - handle() Error Message: " . $exception->getMessage());
+                        // 23000 = SQLSTATE[23000]: Integrity constraint violation
+                        // Not interested in logging Integrity constraint violations
+                        if ($exception->getCode() != 23000) {
+                            // Log::error("insertCommunityEntry Error Message: " . $exception->getCode());
+                            Log::error("PopulateRedditArticles - handle() Error Message: " . $exception->getMessage());
+                        }
                     }
                 }
             }
         }
-
-
     }
 }

@@ -14,16 +14,16 @@ class AddRedditArticleIdToFavorites extends Migration
     public function up()
     {
         Schema::table('favorites', function (Blueprint $table) {
-            $table->dropColumn('article_id');
-            $table->dropColumn('title');
-            $table->dropColumn('image_url');
-            $table->dropColumn('source');
-            $table->dropColumn('category');
-            $table->dropColumn('created_utc');
-            $table->dropColumn('author');
-            $table->dropColumn('url');
+            // $table->dropColumn('article_id');
+            // $table->dropColumn('title');
+            // $table->dropColumn('image_url');
+            // $table->dropColumn('source');
+            // $table->dropColumn('category');
+            // $table->dropColumn('created_utc');
+            // $table->dropColumn('author');
+            // $table->dropColumn('url');
 
-            $table->foreignId('article_id_fk')->references('id')->on('reddit_articles');
+            // $table->foreignId('article_id_fk')->references('id')->on('reddit_articles');
         });
     }
 

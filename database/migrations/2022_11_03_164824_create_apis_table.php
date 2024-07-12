@@ -16,7 +16,7 @@ class CreateApisTable extends Migration
         Schema::create('apis', function (Blueprint $table) {
             $table->id();   
             $table->string('name');
-            $table->string('access_token');
+            $table->longText('access_token');
             $table->string('refresh_token');
             $table->softDeletes();
         });

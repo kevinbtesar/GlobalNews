@@ -10,8 +10,8 @@ class ArticlesController extends \App\Http\Controllers\Controller
 {
     public function getArticles(Request $request)
     {
-        // Log::info('ZERO ' . $request->appName);
-        // Log::info('ZERO-1 ' . $request->category);
+        Log::info('ZERO ' . $request->appName);
+        Log::info('ZERO-1 ' . $request->category);
 
         $returnArticlesJson = [];
         $returnCategoriesJson = []; 
@@ -26,8 +26,8 @@ class ArticlesController extends \App\Http\Controllers\Controller
                     ->limit(20)
                     ->orderBy('created_utc', 'desc');
 
-                // Log::info("toSql: " . print_r( $articles->toSql(),true));
-                // Log::info("getBindings: " . print_r($articles->getBindings(),true));
+                Log::info("toSql: " . print_r( $articles->toSql(),true));
+                Log::info("getBindings: " . print_r($articles->getBindings(),true));
 
                 $articles = $articles->get();
                 $result = json_decode(json_encode($articles), true);                

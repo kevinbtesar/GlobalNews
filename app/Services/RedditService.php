@@ -23,7 +23,7 @@ class RedditService
                 ->get(config("services.reddit.api_url") . "/r/" . $subreddit . "/" . config("enums.reddit_sortby_type.HOT"));
 
             //TODO: /rising
-            // Log::info('FIRST $result->body: ' . print_r($response->body(),true));
+            Log::info('FIRST $result->body: ' . print_r($response->body(),true));
             $result = json_decode($response->body());
 
             if (json_last_error() === JSON_ERROR_NONE && $result !== null && is_object($result)) {
@@ -81,7 +81,8 @@ class RedditService
     {
         try {
 
-            $response = Http::withBasicAuth(env('REDDIT_CLIENT_ID'), env('REDDIT_CLIENT_SECRET'))
+            $api = Api::where('name', 'reddit')->first();
+            $response = Http::withBasicAuth($api->client_id, $api->client_secret)
                 ->asForm()
                 ->post(config("services.reddit.token_url"), [
                     'client_id' => env('REDDIT_CLIENT_ID'),

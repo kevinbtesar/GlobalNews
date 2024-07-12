@@ -19,6 +19,8 @@ class Api extends Model
     protected $fillable = [
         'id',
         'name',
+        'client_id',
+        'client_secret',
         'access_token',
         'refresh_token',
     ];
